@@ -21,8 +21,6 @@ public class RateLimitFilter implements Filter {
 
     private static final Integer MAX_REQUESTS_PER_MINUTE = 10;
 
-    private static final Long REFILL_RATE = 10L;
-
     private static final Duration REDIS_DEFAULT_DURATION = Duration.ofMinutes(1L);
 
 
@@ -44,10 +42,10 @@ public class RateLimitFilter implements Filter {
             return true;
         }
 
-        redisTemplate.opsForValue()
+        Long count = redisTemplate.opsForValue()
                 .increment(key);
 
-        Long count = Long.parseLong(countData);
+//        Long count = Long.parseLong(countData);
         return count <= MAX_REQUESTS_PER_MINUTE;
     }
 
